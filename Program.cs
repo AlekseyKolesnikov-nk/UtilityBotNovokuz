@@ -19,13 +19,13 @@ namespace UtilityBotNovokuz
                 .UseConsoleLifetime()
                 .Build();
 
-            Console.WriteLine("Starting Service");
+            Console.WriteLine("Сервис запущен");
             await host.RunAsync();
-            Console.WriteLine("Service stopped");
+            Console.WriteLine("Сервис остановлен");
         }
 
         static void ConfigureServices(IServiceCollection services)
-        {            // Регистрируем объект TelegramBotClient c токеном подключения
+        {   // Регистрируем объект TelegramBotClient c токеном подключения
             services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient("7615351480:AAG916o5vCqGy-2bNuMjRUel6JAdrDzgkAY"));
             // Регистрируем постоянно активный сервис бота
             services.AddHostedService<Bot>();

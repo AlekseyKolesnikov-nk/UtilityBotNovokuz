@@ -13,7 +13,7 @@ namespace UtilityBotNovokuz
     class Bot : BackgroundService
     {
         /// <summary>
-        /// объект, отвеающий за отправку сообщений клиенту
+        /// объект, отвечающий за отправку сообщений клиенту
         /// </summary>
         private ITelegramBotClient _telegramClient;
 
@@ -30,7 +30,7 @@ namespace UtilityBotNovokuz
                 new ReceiverOptions() { AllowedUpdates = { } }, // receive all update types
                 cancellationToken: stoppingToken);
 
-            Console.WriteLine("Bot started");
+            Console.WriteLine("Бот стартовал");
         }
 
         async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ namespace UtilityBotNovokuz
             //  Обрабатываем нажатия на кнопки  из Telegram Bot API: https://core.telegram.org/bots/api#callbackquery
             if (update.Type == UpdateType.CallbackQuery)
             {
-                await _telegramClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"Данный тип сообщений не поддерживается. Пожалуйста отправьте текст.", cancellationToken: cancellationToken);
+                await _telegramClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"Данный тип сообщений не поддерживается. Пожалуйста, отправьте текст", cancellationToken: cancellationToken);
                 return;
             }
 
@@ -62,12 +62,11 @@ namespace UtilityBotNovokuz
             var errorMessage = exception switch
             {
                 ApiRequestException apiRequestException
-                    => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
-                _ => exception.ToString()
+                    => $"Ошибка API Телеграмм:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}", _ => exception.ToString()
             };
 
             Console.WriteLine(errorMessage);
-            Console.WriteLine("Waiting 10 seconds before retry");
+            Console.WriteLine("Ожидание 10 секунд до очередной попытки");
             Thread.Sleep(10000);
             return Task.CompletedTask;
         }
